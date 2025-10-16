@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FiveM Roleplay Server</title>
+    <style>
+      * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-black: #080808;
+  --bg-card: #16161f;
+  --primary: #2986cc;
+  --primary-hover: #2986cc;
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --accent: #3b82f6;
+  --success: #10b981;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-black);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(10, 10, 15, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 2px;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 32px;
+}
+
+.nav-menu a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-menu a:hover {
+  color: var(--primary);
+}
+
+.connect-btn {
+  background: var(--primary);
+  color: var(--bg-dark);
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.connect-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px 24px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+  opacity: 0.5;
+}
+
+.hero-content {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 64px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-size: 24px;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+
+.btn {
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--bg-dark);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 2px solid var(--primary);
+}
+
+.btn-secondary:hover {
+  background: var(--primary);
+  color: var(--bg-dark);
+}
+
+.btn-large {
+  padding: 18px 48px;
+  font-size: 18px;
+}
+
+.server-info {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+}
+
+.info-card {
+  background: var(--bg-card);
+  padding: 24px 32px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.info-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.section-title {
+  font-size: 48px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 64px;
+  color: var(--text-primary);
+}
+
+.features {
+  padding: 96px 0;
+  background: var(--bg-dark);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.feature-card {
+  background: var(--bg-card);
+  padding: 32px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--primary);
+  box-shadow: 0 16px 48px rgba(245, 158, 11, 0.1);
+}
+
+.feature-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.feature-card h3 {
+  font-size: 24px;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.feature-card p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.rules {
+  padding: 96px 0;
+  background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-card) 100%);
+}
+
+.rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.rule-item {
+  display: flex;
+  gap: 24px;
+  background: var(--bg-card);
+  padding: 32px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s;
+}
+
+.rule-item:hover {
+  border-color: var(--primary);
+  transform: translateX(8px);
+}
+
+.rule-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary);
+  min-width: 48px;
+}
+
+.rule-content h3 {
+  font-size: 22px;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.rule-content p {
+  color: var(--text-secondary);
+}
+
+.join {
+  padding: 96px 0;
+  background: var(--bg-dark);
+}
+
+.join-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+  margin-bottom: 64px;
+}
+
+.step {
+  text-align: center;
+  padding: 32px;
+}
+
+.step-number {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--bg-dark);
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  transition: all 0.3s;
+}
+
+.step:hover .step-number {
+  transform: scale(1.1) rotate(360deg);
+}
+
+.step h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.step p {
+  color: var(--text-secondary);
+}
+
+.join-action {
+  text-align: center;
+}
+
+.footer {
+  background: var(--bg-card);
+  padding: 48px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.footer p {
+  color: var(--text-secondary);
+}
+
+.social-links {
+  display: flex;
+  gap: 24px;
+}
+
+.social-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.social-link:hover {
+  color: var(--primary);
+}
+
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 40px;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .server-info {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .section-title {
+    font-size: 32px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer .container {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">FIVEM RP</div>
+        <ul class="nav-menu">
+          <li><a href="#home">domov</a></li>
+          <li><a href="#features">Funkce</a></li>
+          <li><a href="#rules">pravidla</a></li>
+          <li><a href="#join">připojení</a></li>
+        </ul>
+        <button class="connect-btn">připoj teď a zahraj si</button>
+      </div>
+    </nav>
+
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">Vítejte na našem FiveM serveru</h1>
+        <p class="hero-subtitle">Zažijte ultimátní roleplay dobrodružství v Los Santos</p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary">připoj se na Server</button>
+          <button class="btn btn-secondary">podivej se na Discord</button>
+        </div>
+        <div class="server-info">
+          <div class="info-card">
+            <span class="info-number">150</span>
+            <span class="info-label">hrači Online</span>
+          </div>
+          <div class="info-card">
+            <span class="info-number">256</span>
+            <span class="info-label">Max Slots</span>
+          </div>
+          <div class="info-card">
+            <span class="info-number">24/7</span>
+            <span class="info-label">Uptime</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <div class="container">
+        <h2 class="section-title">Server funkce</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🚓</div>
+            <h3>vlastní prace</h3>
+            <p>Police, EMS, Mechanics, a více unikátních pracovních pozic na výběr</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🏪</div>
+            <h3>Economy System</h3>
+            <p>Vyvážená ekonomika se zákonnými i nezákonnými aktivitami</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🚗</div>
+            <h3>vlastní auta</h3>
+            <p>Více než 200 upravených vozidel s realistickým ovládáním</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🏠</div>
+            <h3>domovní System</h3>
+            <p>Kupujte, prodávejte a přizpůsobujte své vlastní nemovitosti</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">👥</div>
+            <h3>aktivní Comunita</h3>
+            <p>Přátelský personál a angažovaná hráčská základna</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚙️</div>
+            <h3>normalní updates</h3>
+            <p>Stále se zlepšuje s novým obsahem</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules" class="rules">
+      <div class="container">
+        <h2 class="section-title">Server pravidla</h2>
+        <div class="rules-list">
+          <div class="rule-item">
+            <span class="rule-number">1</span>
+            <div class="rule-content">
+              <h3>Respectujte všechny</h3>
+              <p>Chovejte se ke všem hráčům s respektem. Žádné obtěžování ani diskriminace.</p>
+            </div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-number">2</span>
+            <div class="rule-content">
+              <h3>žadný RDM/VDM</h3>
+              <p>Random Deathmatch a auto Deathmatch jsou přísně zakázáno.</p>
+            </div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-number">3</span>
+            <div class="rule-content">
+              <h3>Roleplay First</h3>
+              <p>Vždy upřednostňujte kvalitní hraní rolí před vítěznými scénáři.</p>
+            </div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-number">4</span>
+            <div class="rule-content">
+              <h3>Žádné zneužívání</h3>
+              <p>Využívání chyb nebo glitchů povede k okamžitému banu.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="join" class="join">
+      <div class="container">
+        <h2 class="section-title">jak se připojit</h2>
+        <div class="join-steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>nainstaluj FiveM</h3>
+            <p>stahni si fivem na strance fivem.net(musite mít gta legacy)</p>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>najdi server</h3>
+            <p>Vyhledejte náš server v prohlížeči FiveM</p>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>připoj Discord</h3>
+            <p>připoj se na discord pro support a whitelist</p>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <h3>začni hrat už teď</h3>
+            <p>Připojte se a začněte svou cestu v roleplay hře</p>
+          </div>
+        </div>
+        <div class="join-action">
+          <button class="btn btn-primary btn-large">připoj se na: SunValeRP</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2025 FiveM RP Server. (website made by vixycekkk)</p>
+        <div class="social-links">
+          <a href="#" class="social-link">Discord</a>
+          <a href="#" class="social-link">Forum</a>
+          <a href="#" class="social-link">pravidla</a>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
+<vite.svg>
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="31.88" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 257"><defs><linearGradient id="IconifyId1813088fe1fbc01fb466" x1="-.828%" x2="57.636%" y1="7.652%" y2="78.411%"><stop offset="0%" stop-color="#41D1FF"></stop><stop offset="100%" stop-color="#BD34FE"></stop></linearGradient><linearGradient id="IconifyId1813088fe1fbc01fb467" x1="43.376%" x2="50.316%" y1="2.242%" y2="89.03%"><stop offset="0%" stop-color="#FFEA83"></stop><stop offset="8.333%" stop-color="#FFDD35"></stop><stop offset="100%" stop-color="#FFA800"></stop></linearGradient></defs><path fill="url(#IconifyId1813088fe1fbc01fb466)" d="M255.153 37.938L134.897 252.976c-2.483 4.44-8.862 4.466-11.382.048L.875 37.958c-2.746-4.814 1.371-10.646 6.827-9.67l120.385 21.517a6.537 6.537 0 0 0 2.322-.004l117.867-21.483c5.438-.991 9.574 4.796 6.877 9.62Z"></path><path fill="url(#IconifyId1813088fe1fbc01fb467)" d="M185.432.063L96.44 17.501a3.268 3.268 0 0 0-2.634 3.014l-5.474 92.456a3.268 3.268 0 0 0 3.997 3.378l24.777-5.718c2.318-.535 4.413 1.507 3.936 3.838l-7.361 36.047c-.495 2.426 1.782 4.5 4.151 3.78l15.304-4.649c2.372-.72 4.652 1.36 4.15 3.788l-11.698 56.621c-.732 3.542 3.979 5.473 5.943 2.437l1.313-2.028l72.516-144.72c1.215-2.423-.88-5.186-3.54-4.672l-25.505 4.922c-2.396.462-4.435-1.77-3.759-4.114l16.646-57.705c.677-2.35-1.37-4.583-3.769-4.113Z"></path></svg>
+</vite.svg>
